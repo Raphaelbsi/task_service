@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: main_app_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+
+  main_app:
+    build:
+      context: ./main_app
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./main_app:/app
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: main_app_db
+      DATABASE_USER: user
+      DATABASE_PASSWORD: user_password
+
+  auth_service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    volumes:
+      - ./auth_service:/app
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: auth_service_db
+      DATABASE_USER: user
+      DATABASE_PASSWORD: user_password
+
+  notification_service:
+    build:
+      context: ./notification_service
+      dockerfile: Dockerfile
+    ports:
+      - '3002:3000'
+    volumes:
+      - ./notification_service:/app
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: notification_service_db
+      DATABASE_USER: user
+      DATABASE_PASSWORD: user_password
+
+  scraping_service:
+    build:
+      context: ./scraping_service
+      dockerfile: Dockerfile
+    ports:
+      - '3003:3000'
+    volumes:
+      - ./scraping_service:/app
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: scraping_service_db
+      DATABASE_USER: user
+      DATABASE_PASSWORD: user_password
+
+volumes:
+  db_data:
