@@ -3,17 +3,20 @@ class ScrapingController < ApplicationController
   require 'uri'
   require 'json'
 
+  def index
+    scraping_results = ScrapingResult.all
+    render json: scraping_results
+  end
+
   def create
     url = params[:url].gsub('comprar', 'api/detail/car') + '&pandora=true'
     task_id = params[:task_id]
     user_id = params[:user_id]
 
-    puts "Fetching data from API: #{url}"
+    Rails.logger.info "Fetching data from API: #{url}"
 
     begin
       data = fetch_data_from_api(url)
-
-      puts "Data fetched: #{data.inspect}"
 
       scraping_result = ScrapingResult.new(
         task_id:,
