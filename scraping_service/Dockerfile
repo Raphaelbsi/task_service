@@ -1,6 +1,10 @@
 FROM ruby:3.1
 
-RUN apt-get update -qq && apt-get install -y nodejs default-mysql-client
+RUN apt-get update -qq && \
+  apt-get install -y nodejs default-mysql-client unzip wget gnupg
+
+RUN apt-get update -qq && \
+  apt-get install -y chromium chromium-driver
 
 WORKDIR /app
 

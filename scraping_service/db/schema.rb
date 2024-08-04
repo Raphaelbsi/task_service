@@ -10,6 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2024_08_04_154050) do
+
+  create_table "scraping_results", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.integer "task_id"
+    t.integer "user_id"
+    t.string "make"
+    t.string "model"
+    t.string "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "city"
+    t.string "year"
+    t.string "km"
+    t.string "transmission"
+    t.string "body_type"
+    t.string "fuel"
+    t.string "final_plate"
+    t.string "color"
+    t.string "trade"
+  end
 
 end

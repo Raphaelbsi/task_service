@@ -16,6 +16,21 @@ gem 'puma', '~> 5.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# rspec-rails is a testing framework for Rails 5+.
+gem 'rspec-rails', '~> 6.1', '>= 6.1.3'
+
+# factory_bot_rails provides integration between factory_bot and rails 5.0 or newer
+gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
+
+# Alias gem for httparty
+gem 'httpparty', '~> 0.2.0'
+
+# Nokogiri (鋸) makes it easy and painless to work with XML and HTML from Ruby.
+gem 'nokogiri', '~> 1.16', '>= 1.16.7'
+
+# Selenium implements the W3C WebDriver protocol to automate popular browsers.
+gem 'selenium-webdriver', '~> 4.23'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

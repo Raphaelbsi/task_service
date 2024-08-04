@@ -10,6 +10,8 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
 
   main_app:
     build: ./main_app
@@ -25,6 +27,8 @@ services:
       - '3000:3000'
     volumes:
       - ./main_app:/app
+    networks:
+      - app-network
 
   auth_service:
     build: ./auth_service
@@ -40,6 +44,8 @@ services:
       - '3001:3000'
     volumes:
       - ./auth_service:/app
+    networks:
+      - app-network
 
   notification_service:
     build: ./notification_service
@@ -55,6 +61,8 @@ services:
       - '3002:3000'
     volumes:
       - ./notification_service:/app
+    networks:
+      - app-network
 
   scraping_service:
     build: ./scraping_service
@@ -70,6 +78,12 @@ services:
       - '3003:3000'
     volumes:
       - ./scraping_service:/app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   db_data:
