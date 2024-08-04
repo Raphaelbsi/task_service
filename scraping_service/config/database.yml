@@ -1,0 +1,19 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+
+development:
+  <<: *default
+  database: scraping_service_db
+
+test:
+  <<: *default
+  database: scraping_service_test_db
+
+production:
+  <<: *default
+  database: scraping_service_production_db
