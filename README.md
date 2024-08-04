@@ -1,4 +1,3 @@
-
 # Task Service
 
 ## Setup and Execution Instructions for Task Service
@@ -10,6 +9,7 @@
 ### Cloning the Repository
 
 1. Clone the main project repository:
+
    ```bash
    git clone https://github.com/Raphaelbsi/task_service.git
    cd task_service
@@ -34,16 +34,19 @@
 4. Run the migrations and seed the database for each service:
 
    - For the `main_app`:
+
      ```bash
      docker-compose exec main_app bundle exec rails db:create db:migrate
      ```
 
    - For the `auth_service`:
+
      ```bash
      docker-compose exec auth_service bundle exec rails db:create db:migrate db:seed
      ```
 
    - For the `notification_service`:
+
      ```bash
      docker-compose exec notification_service bundle exec rails db:create db:migrate
      ```
@@ -55,16 +58,44 @@
 
 ### Postman Collection
 
-5. Use the provided Postman collection to test the API endpoints. You can import the collection into Postman using the link below:
+5. Use the provided Postman collection (located in the root of the project) to test the API endpoints. You can import the `task_service.postman_collection.json` file into Postman.
 
-   [Import Postman Collection](https://winter-eclipse-754259.postman.co/workspace/FolhaCCL~273bf4d1-5f5d-432c-9b6b-7c75ef8429a5/collection/13522477-d412fdf2-18f1-4dce-b629-bfdafec9ad75?action=share&source=collection_link&creator=13522477)
+### Example Requests Using Curl
 
-   The collection includes endpoints for:
+- **Login**
 
-   - Creating, updating, and deleting tasks.
-   - Authenticating users.
-   - Sending notifications.
-   - Scraping data.
+  ```bash
+  curl --location 'http://localhost:3001/login'   --header 'Content-Type: application/json'   --data-raw '{"email": "test@example.com", "password": "password"}'
+  ```
+
+- **Create a Task**
+
+  ```bash
+  curl --location 'http://localhost:3000/tasks'   --header 'Content-Type: application/json'   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.mEJWMrdc0KptbXLg1xVjzrKo37J8uLS2-55t7ZHfgK8'   --data '{
+    "task": {
+            "title": "Cruze",
+            "status": "pending",
+            "url": "https://www.webmotors.com.br/comprar/bmw/118i/15-12v-gasolina-m-sport-steptronic/4-portas/2023/52659137?pos=c52659137g:&np=1&ct=1840177"
+          }
+  }'
+  ```
+
+- **View Created Task**
+
+  ```bash
+  curl --location 'http://localhost:3000/tasks'   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.mEJWMrdc0KptbXLg1xVjzrKo37J8uLS2-55t7ZHfgK8'
+  ```
+
+- **View Collected Data**
+
+  ```bash
+  curl --location 'http://localhost:3003/scraping_results'   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.mEJWMrdc0KptbXLg1xVjzrKo37J8uLS2-55t7ZHfgK8'
+  ```
+
+- **View Notifications**
+  ```bash
+  curl --location 'http://localhost:3002/notifications'
+  ```
 
 ### Notes
 
