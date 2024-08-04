@@ -1,6 +1,6 @@
 FROM ruby:3.1
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -y nodejs default-mysql-client
 
 WORKDIR /app
 
@@ -11,9 +11,6 @@ RUN bundle install
 
 COPY . /app
 
-RUN bundle exec rails db:create
-RUN bundle exec rails db:migrate
-
 EXPOSE 3000
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bash", "-c", "bundle exec rails db:create db:migrate && bundle exec rails s -b '0.0.0.0'"]

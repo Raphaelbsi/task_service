@@ -8,12 +8,14 @@ default: &default
 
 development:
   <<: *default
-  database: scraping_service_db
+  database: <%= ENV['DATABASE_NAME'] %>
 
 test:
   <<: *default
-  database: scraping_service_test_db
+  database: scraping_service_test
 
 production:
   <<: *default
-  database: scraping_service_production_db
+  database: scraping_service_production
+  username: scraping_service
+  password: <%= ENV['SCRAPING_SERVICE_DATABASE_PASSWORD'] %>
