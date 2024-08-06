@@ -17,12 +17,15 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     @task.user_id = @current_user_id
 
+    Rails.logger.info "Attempting to save task with attributes: #{@task.attributes}"
+
     if @task.save
       notify(@task)
       trigger_scraping(@task) if @task.pending? && @task.url.present?
       render json: { task: @task }, status: :created
     else
-      render :new
+      Rails.logger.error("Task creation failed: #{@task.errors.full_messages}")
+      render json: { errors: @task.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -32,15 +35,16 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       notify(@task)
       trigger_scraping(@task) if @task.pending? && @task.url.present?
-      render json: { task: @task }, status: :update
+      render json: { task: @task }, status: :ok
     else
-      render :edit
+      Rails.logger.error("Task updated failed: #{@task.errors.full_messages}")
+      render json: { errors: @task.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     @task.destroy
-    redirect_to tasks_url, notice: 'Tarefa excluída com sucesso.'
+    head :no_content
   end
 
   private
