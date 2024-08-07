@@ -76,6 +76,7 @@ services:
       DATABASE_USER: user
       DATABASE_PASSWORD: password
       DATABASE_NAME: scraping_service_db
+      NOTIFICATION_SERVICE_URL: http://notification_service:3000/notifications
     depends_on:
       - db
     ports:
