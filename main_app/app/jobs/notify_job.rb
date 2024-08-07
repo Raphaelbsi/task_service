@@ -3,7 +3,8 @@ class NotifyJob < ApplicationJob
 
   def perform(task)
     notification_details = "Task #{task.id} was created/updated: Title - #{task.title}, Status - #{task.status}, URL - #{task.url}"
-    HTTParty.post(ENV['NOTIFICATION_SERVICE_URL'],
+    url = ENV['NOTIFICATION_SERVICE_URL']
+    HTTParty.post(url,
                   body: { notification: { task_id: task.id, user_id: task.user_id,
                                           details: notification_details } }.to_json,
                   headers: { 'Content-Type' => 'application/json' })
@@ -12,4 +13,3 @@ class NotifyJob < ApplicationJob
     raise e
   end
 end
-

@@ -2,7 +2,8 @@ class TriggerScrapingJob < ApplicationJob
   queue_as :default
 
   def perform(task)
-    HTTParty.post(ENV['SCRAPING_SERVICE_URL'],
+    url = ENV['SCRAPING_SERVICE_URL']
+    HTTParty.post(url,
                   body: { task_id: task.id, user_id: task.user_id, url: task.url }.to_json,
                   headers: { 'Content-Type' => 'application/json' })
   rescue StandardError => e

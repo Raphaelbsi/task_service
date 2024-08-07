@@ -94,6 +94,8 @@ services:
       DATABASE_PASSWORD: password
       DATABASE_NAME: main_app_db
       REDIS_URL: redis://redis:6379/1
+      NOTIFICATION_SERVICE_URL: http://notification_service:3000/notifications
+      SCRAPING_SERVICE_URL: http://scraping_service:3000/scrape
     depends_on:
       - db
       - redis
@@ -103,7 +105,7 @@ services:
       - app-network
 
   redis:
-    image: redis:6.0
+    image: redis:6.2
     networks:
       - app-network
 
