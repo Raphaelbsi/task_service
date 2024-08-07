@@ -16,6 +16,9 @@ gem 'puma', '~> 5.0'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# Simple, efficient background processing for Ruby.
+gem 'sidekiq', '~> 7.3'
+
 # A pure ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem 'jwt', '~> 2.8', '>= 2.8.2'
 

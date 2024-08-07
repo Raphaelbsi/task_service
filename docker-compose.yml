@@ -21,8 +21,12 @@ services:
       DATABASE_USER: user
       DATABASE_PASSWORD: password
       DATABASE_NAME: main_app_db
+      NOTIFICATION_SERVICE_URL: http://notification_service:3000/notifications
+      SCRAPING_SERVICE_URL: http://scraping_service:3000/scrape
+      REDIS_URL: redis://redis:6379/1
     depends_on:
       - db
+      - redis
     ports:
       - '3000:3000'
     volumes:
@@ -78,6 +82,28 @@ services:
       - '3003:3000'
     volumes:
       - ./scraping_service:/app
+    networks:
+      - app-network
+
+  sidekiq:
+    build: ./main_app
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec sidekiq"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: main_app_db
+      REDIS_URL: redis://redis:6379/1
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./main_app:/app
+    networks:
+      - app-network
+
+  redis:
+    image: redis:6.0
     networks:
       - app-network
 
